@@ -1,54 +1,51 @@
-Secure Cloud Vault (Infrastructure as Code)
+# Secure Cloud Vault (Infrastructure as Code)
 
-This project defines a secure-by-design cloud storage environment using Terraform. It provisions an immutable AWS S3 vault designed to receive encrypted backups from on-premise Linux servers.
+This project defines a secure-by-design cloud storage environment using **Terraform**. It provisions an immutable AWS S3 vault designed to receive encrypted backups from on-premise Linux servers.
 
-Unlike standard bucket creation, this infrastructure implements Zero Trust principles and Defense in Depth strategies to protect against ransomware and data exfiltration.
+Unlike standard bucket creation, this infrastructure implements **Zero Trust** principles and **Defense in Depth** strategies to protect against ransomware and data exfiltration.
 
-Integration: This infrastructure is the destination for the Hardened Backup Agent.
+**Integration:** This infrastructure is the destination for the [Hardened Backup Agent](https://github.com/yourusername/hardened-backup-agent).
 
-Security Features
+## Security Features
 
-Immutable History: S3 Versioning is enabled to allow recovery from accidental deletions or ransomware encryption attacks.
+*   **Immutable History:** S3 Versioning is enabled to allow recovery from accidental deletions or ransomware encryption attacks.
+*   **Encryption at Rest:** Enforces Server-Side Encryption (AES-256) for all objects.
+*   **Least Privilege Access:** Creates a dedicated IAM Service Account (`backup_bot`) with permissions restricted strictly to `PutObject` and `ListBucket` on this specific vault.
+*   **Public Access Block:** Explicitly denies all public read/write ACLs at the bucket level.
 
-Encryption at Rest: Enforces Server-Side Encryption (AES-256) for all objects.
+## Deployment Guide
 
-Least Privilege Access: Creates a dedicated IAM Service Account (backup_bot) with permissions restricted strictly to PutObject and ListBucket on this specific vault.
+### Prerequisites
 
-Public Access Block: Explicitly denies all public read/write ACLs at the bucket level.
+*   **Arch Linux:**
+    ```bash
+    sudo pacman -S terraform aws-cli
+    ```
+*   **AWS Account:** Ensure you have Admin Access Keys configured via `aws configure`.
 
-Technology Stack
+### Quick Start
 
-Terraform: v1.0+
+1.  **Clone the repository:**
 
-Cloud Provider: AWS
+    ```bash
+    git clone https://github.com/yourusername/secure-cloud-vault.git
+    cd secure-cloud-vault
+    ```
 
-OS: Developed on Arch Linux
+2.  **Initialize Terraform:**
 
-Deployment Guide
+    ```bash
+    terraform init
+    ```
 
-Prerequisites
+3.  **Deploy Infrastructure:**
 
-Arch Linux: sudo pacman -S terraform aws-cli
+    ```bash
+    terraform apply
+    ```
 
-AWS Account with Admin Access Keys configured.
-
-Quick Start
-
-Clone the repository:
-
-git clone [https://github.com/yourusername/secure-cloud-vault.git](https://github.com/yourusername/secure-cloud-vault.git)
-cd secure-cloud-vault
-
-
-Initialize Terraform:
-
-terraform init
-
-
-Deploy Infrastructure:
-
-terraform apply
-
-
-Capture Credentials:
-Terraform will output the bucket_name, access_key, and secret_key. Save these immediately to configure the Backup Agent.
+4.  **Capture Credentials:**
+    
+    Terraform will output the `bucket_name`, `access_key`, and `secret_key`. 
+    
+    **Important:** Save these immediately to configure the Backup Agent inside its `.env` file.
