@@ -1,4 +1,4 @@
-# Secure Cloud Vault (Infrastructure as Code)
+# Secure Cloud Vault
 
 This project defines a secure-by-design cloud storage environment using **Terraform**. It provisions an immutable AWS S3 vault designed to receive encrypted backups from on-premise Linux servers.
 
