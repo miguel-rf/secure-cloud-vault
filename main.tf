@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "eu-north-1" # Change if you used a different region in 'aws configure'
+  region = "eu-north-1"
 }
 
 resource "aws_s3_bucket" "backup_vault" {
